@@ -1,72 +1,152 @@
 import React from 'react';
 
 import ProductSimilarApps from '@appdirect/sfb-theme-components/src/components/product-similar-apps/ProductSimilarApps';
+import Slider, { sliderSchemaForm, sliderSettingShape, sliderDefaultSettings } from '@appdirect/sfb-theme-components/src/atoms/slider/Slider';
 import Tile from '@appdirect/sfb-theme-components/src/atoms/tile/Tile';
 import withListener from '@appdirect/sfb-theme-components/src/components/withListener';
+import { SMALL, MEDIUM, LARGE } from '@appdirect/sfb-theme-components/src/constants/sizes';
+import { createNamespace } from '@appdirect/sfb-theme-components/src/tools/namingTools';
+
+export const ProductRecommendedAppsComponent = props => {
 
 
-export const ProductRecommendedAppsComponent = props => ({
 
-    const SETTINGS = Tile.schema().form;
-    const { settings = {}} = props;
-    const tile = Tile({
-        data: {
-            name: 'Application',
-            id: 0,
-            vendorName: '',
-            blurb: 'This is an app',
-            description: '',
-            hidePricings: false,
-            startingPrice: {
-                priceCaption: '',
-                formattedFullPrice: ''
-            },
-            url: '',
-            iconUrl: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F69%2FHow_to_use_icon.svg%2F1200px-How_to_use_icon.svg.png&imgrefurl=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AHow_to_use_icon.svg&tbnid=qr7OC_o-LJ2zFM&vet=12ahUKEwjyzbGVnc_yAhWOo3IEHZ9xCPQQMygBegUIARDLAQ..i&docid=2BPS9DMOFiAuyM&w=1200&h=1110&q=icon&ved=2ahUKEwjyzbGVnc_yAhWOo3IEHZ9xCPQQMygBegUIARDLAQ",
-            rating: 3,
-            numRatings: 20,
-            tags: null,
-            badges: [],
-            productRibbon: null
+    const namespace = createNamespace('ProductSimilarApps');
+
+    // const SETTINGS = Tile.schema().form;
+    var tile_settings = {
+        // layout: SETTINGS.layout.defaultValue,
+        tileBackgroundColor: "blue",
+        isDescriptionVisible: true,
+        isRatingsVisible: true,
+        size: SMALL.value,
+        borderRadius: 8
+    }
+
+    var tile_data = {
+        name: 'Application',
+        id: 310993,
+        vendorName: 'Vendor',
+        blurb: 'This is an app',
+        description: 'A geat app',
+        hidePricings: false,
+        startingPrice: {
+            priceCaption: '232',
+            formattedFullPrice: '333'
         },
-        settings: {
-            layout: SETTINGS.layout.defaultValue,
-            tileBackgroundColor: "blue",
-            isDescriptionVisible: true,
-            isRatingsVisible: true,
-            size: SMALL.value,
-            borderRadius: 8
-        },
+        url: '',
+        iconUrl: "",
+        rating: 3,
+        numRatings: 20,
+        tags: null,
+        badges: [], //{id:"23", label:"label", type:"success"}
+        productRibbon: null
+    }
+
+    var tile_content = {
+        data: tile_data,
+        settings: tile_settings,
         isMobile: false,
         tileIndex: 0,
         reportHeight: null, // deliberately setting this to null because an empty function is truthy
-        height: 0,
+        height: 500,
         ctaLabel: 'Buy Now'
         } 
-    )
-    
 
-    const recommendation_data =  {
-        data: {
-        recommendations: {
-            items: [
-                tile
-            ],
-            viewAllLink: '',
-            i18n: {
-                title: 'Recommended Apps',
-                titleProduct: 'Recommended Products',
-                viewAll: 'View All'
-                    }
-                }
-            },
-        settings: {
-            ...sliderDefaultSettings,
-            sliderTitle: undefined,
-            sortBy: null
+
+    var tile = Tile(
+        tile_content
+    )
+
+    var slider_settings ={
+        layout: "classic",
+        borderRadius: 8,
+        size: MEDIUM.value,
+        tileBackgroundColor: '#EAEAEA',
+        tileCtaLabel: 'Buy now',
+        // displayOptions: SETTINGS.displayOptions.defaultValue,
+        // quickviewOptions: SETTINGS.quickviewOptions.defaultValue,
+        // quickviewDisplayOptions: productQuickviewSchemaForm.quickviewDisplayOptions.defaultValue,
+        // quickviewViewMode: productQuickviewSchemaForm.quickviewViewMode.defaultValue
+    }
+
+
+    var i18n = {
+            title: 'Recommended Apps',
+            titleProduct: 'Recommended Products',
+            viewAll: 'https://news.google.com/',
+            quickview: 'Quickview',
+            defaultTitlePlaceholder: 'Product Name',
+            defaultDescriptionPlaceholder: 'Product description goes here in this space provided.',
+            defaultPricePlaceholder: 'From'
         }
-    };
-    return (<ProductSimilarApps data= {recommendation_data}/>);
-});
+
+    var slider_content = {
+        name: "Recommendations",
+        url: "",
+        items: [tile],
+        staticTitle: "Recommended Apps",
+        // although component's main purpose is being a slider, it can also show a static list of elements
+        isSlider: true,
+        maxRows: 1,
+        buttonLabel: null,
+        contentType: 'manual',
+        i18n: {
+            title: 'Recommended Apps',
+            titleProduct: 'Recommended Products',
+            viewAll: 'View All'
+            },
+        settings: slider_settings
+            
+    }
+
+    var recommendation_data = {
+        recommendations: {
+            items: [tile, tile],
+            viewAllLink: '',
+            i18n:i18n
+        }
+
+    }
+
+    var recommendation_settings = {
+        ...sliderDefaultSettings,
+        sliderTitle: "Recommended Applications",
+        sortBy: "nothing"
+    }
+
+    var recommendation_content = {
+        data: recommendation_data,
+        settings: recommendation_settings
+    }
+
+    // return (
+    //     <div>
+    //         <ProductSimilarApps 
+    //             data={recommendation_data} 
+    //             settings={recommendation_settings} 
+    //         />
+    //     </div>);
+
+    return (<div {...namespace('container').props}>
+                <Slider 
+                    // data={slider_data}
+                    // name={"Slider"}
+                    items={[tile]}
+                    // url={"https://news.google.com/"}
+                    i18n={i18n}
+                    // staticTitle={'Recommended Products'}
+                    // contentType={"manual"}
+                    // settings={slider_settings}
+                />
+            </div>);
+
+    // return (<div><Tile data={tile_data} settings={tile_settings} /></div>);
+
+};
+
+
+ProductRecommendedAppsComponent.defaultProps = {
+};
 
 export default withListener(ProductRecommendedAppsComponent);
