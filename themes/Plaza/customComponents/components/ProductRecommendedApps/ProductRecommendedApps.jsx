@@ -34,8 +34,8 @@ export const ProductRecommendedAppsComponent = props => {
             priceCaption: '232',
             formattedFullPrice: '333'
         },
-        url: '',
-        iconUrl: "",
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/96px-User_icon_2.svg.png',
+        iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/96px-User_icon_2.svg.png",
         rating: 3,
         numRatings: 20,
         tags: null,
@@ -64,6 +64,7 @@ export const ProductRecommendedAppsComponent = props => {
         size: MEDIUM.value,
         tileBackgroundColor: '#EAEAEA',
         tileCtaLabel: 'Buy now',
+        sliderTitle: "Recommended Products"
         // displayOptions: SETTINGS.displayOptions.defaultValue,
         // quickviewOptions: SETTINGS.quickviewOptions.defaultValue,
         // quickviewDisplayOptions: productQuickviewSchemaForm.quickviewDisplayOptions.defaultValue,
@@ -74,11 +75,7 @@ export const ProductRecommendedAppsComponent = props => {
     var i18n = {
             title: 'Recommended Apps',
             titleProduct: 'Recommended Products',
-            viewAll: 'https://news.google.com/',
-            quickview: 'Quickview',
-            defaultTitlePlaceholder: 'Product Name',
-            defaultDescriptionPlaceholder: 'Product description goes here in this space provided.',
-            defaultPricePlaceholder: 'From'
+            viewAll: 'https://news.google.com/'
         }
 
     var slider_content = {
@@ -102,15 +99,14 @@ export const ProductRecommendedAppsComponent = props => {
 
     var recommendation_data = {
         recommendations: {
-            items: [tile, tile],
-            viewAllLink: '',
+            items: [tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data],
+            viewAllLink: 'https://www.cbc.ca',
             i18n:i18n
         }
 
     }
 
     var recommendation_settings = {
-        ...sliderDefaultSettings,
         sliderTitle: "Recommended Applications",
         sortBy: "nothing"
     }
@@ -120,29 +116,13 @@ export const ProductRecommendedAppsComponent = props => {
         settings: recommendation_settings
     }
 
-    // return (
-    //     <div>
-    //         <ProductSimilarApps 
-    //             data={recommendation_data} 
-    //             settings={recommendation_settings} 
-    //         />
-    //     </div>);
-
-    return (<div {...namespace('container').props}>
-                <Slider 
-                    // data={slider_data}
-                    // name={"Slider"}
-                    items={[tile]}
-                    // url={"https://news.google.com/"}
-                    i18n={i18n}
-                    // staticTitle={'Recommended Products'}
-                    // contentType={"manual"}
-                    // settings={slider_settings}
-                />
-            </div>);
-
-    // return (<div><Tile data={tile_data} settings={tile_settings} /></div>);
-
+    return (
+        <div>
+            <ProductSimilarApps 
+                data={recommendation_data} 
+                settings={recommendation_settings} 
+            />
+        </div>);
 };
 
 
