@@ -7,16 +7,41 @@ import withListener from '@appdirect/sfb-theme-components/src/components/withLis
 import { SMALL, MEDIUM, LARGE } from '@appdirect/sfb-theme-components/src/constants/sizes';
 import { createNamespace } from '@appdirect/sfb-theme-components/src/tools/namingTools';
 
-import { queryProductAPI, getProductDetails } from './APIQuery';
+import { productInfoFromResponse } from './ProductAPIQuery';
 
-export const ProductRecommendedAppsComponent = props => {
-
-
+export const ProductRecommendedAppsComponent = function(props){
 
     const namespace = createNamespace('ProductSimilarApps');
 
-    var tile_data = queryProductAPI(126588, "https://testmarketplace.appdirect.com")
+    var queryProductAPI = async function(application_id, marketplace_url) {
+        const url = `${marketplace_url}/api/marketplace/v1/products/${application_id}`
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+    }
 
+    var getAllProductDetails = function(application_id_list, marketplace_url) {
+        const queryPromises = application_id_list.map(app_id => 
+            queryProductAPI(app_id, marketplace_url));
+
+        const statusesPromise = Promise.allSettled(queryPromises);
+        return statusesPromise;
+    }
+
+    const responses = getAllProductDetails([310674, 147651, 147651], "https://marketplace.appsmart.com")
+    var tile_data = [];
+
+    for (var i = 0; i < responses.length; i++){
+        console.log(responses[i])
+        if (responses[i].status === "fulfilled") {
+            tile_data.push(productInfoFromResponse(responses[i].value.json()))
+        }
+    }
+    // var tile_data = responses.map(product => productInfoFromResponse(product))
+    // console.log(tile_data)
     var tile_settings = {
         // layout: SETTINGS.layout.defaultValue,
         tileBackgroundColor: "blue",
@@ -76,7 +101,7 @@ export const ProductRecommendedAppsComponent = props => {
 
     var recommendation_data = {
         recommendations: {
-            items: [tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data, tile_data],
+            items: tile_data,
             viewAllLink: 'https://www.cbc.ca',
             i18n:i18n
         }
