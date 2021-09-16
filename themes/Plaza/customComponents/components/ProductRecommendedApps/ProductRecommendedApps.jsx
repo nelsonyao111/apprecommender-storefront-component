@@ -52,52 +52,11 @@ export const ProductRecommendedAppsComponent = function(props){
     }
 
 
-
-    var tile_content = {
-        data: tile_data,
-        settings: tile_settings,
-        isMobile: false,
-        tileIndex: 0,
-        reportHeight: null, // deliberately setting this to null because an empty function is truthy
-        height: 500,
-        ctaLabel: 'Buy Now'
-        } 
-
-
-    var slider_settings ={
-        layout: "classic",
-        borderRadius: 8,
-        size: MEDIUM.value,
-        tileBackgroundColor: '#EAEAEA',
-        tileCtaLabel: 'Buy now',
-        sliderTitle: "Recommended Products"
-    }
-
-
     var i18n = {
             title: 'Recommended Apps',
             titleProduct: 'Recommended Products',
             viewAll: 'https://news.google.com/'
         }
-
-    // var slider_content = {
-    //     name: "Recommendations",
-    //     url: "",
-    //     items: [tile],
-    //     staticTitle: "Recommended Apps",
-    //     // although component's main purpose is being a slider, it can also show a static list of elements
-    //     isSlider: true,
-    //     maxRows: 1,
-    //     buttonLabel: null,
-    //     contentType: 'manual',
-    //     i18n: {
-    //         title: 'Recommended Apps',
-    //         titleProduct: 'Recommended Products',
-    //         viewAll: 'View All'
-    //         },
-    //     settings: slider_settings
-            
-    // }
 
     var recommendation_data = {
         recommendations: {
