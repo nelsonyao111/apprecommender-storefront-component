@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import ProductSimilarApps from '@appdirect/sfb-theme-components/src/components/product-similar-apps/ProductSimilarApps';
-import Slider, { sliderSchemaForm, sliderSettingShape, sliderDefaultSettings } from '@appdirect/sfb-theme-components/src/atoms/slider/Slider';
-import Tile from '@appdirect/sfb-theme-components/src/atoms/tile/Tile';
 import withListener from '@appdirect/sfb-theme-components/src/components/withListener';
-import { SMALL, MEDIUM, LARGE } from '@appdirect/sfb-theme-components/src/constants/sizes';
 import { createNamespace } from '@appdirect/sfb-theme-components/src/tools/namingTools';
 
 import { productInfoFromResponse, getAllProductDetails} from './ProductAPIQuery';
@@ -30,11 +27,11 @@ export const ProductRecommendedAppsComponent = function(props){
                 setData({
                     recommendations: {
                         items: tile_data,
-                        viewAllLink: 'https://www.cbc.ca',
+                        viewAllLink: '',
                         i18n:{
                             title: 'Recommended Apps',
                             titleProduct: 'Recommended Products',
-                            viewAll: 'https://news.google.com/'
+                            viewAll: 'View All'
                         }
                     }
                 })
