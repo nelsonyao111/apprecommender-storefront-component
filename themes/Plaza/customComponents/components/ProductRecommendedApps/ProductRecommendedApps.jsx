@@ -19,7 +19,6 @@ export const ProductRecommendedAppsComponent = function(props){
           .then(promises => {
                 var tile_data = [];
                 for (var i = 0; i < promises.length; i++){
-                    console.log(promises[i])
                     if (promises[i].status === "fulfilled") {
                         tile_data.push(productInfoFromResponse(promises[i].value))
                     }
