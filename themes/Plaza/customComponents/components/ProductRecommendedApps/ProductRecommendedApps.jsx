@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ProductSimilarApps from '@appdirect/sfb-theme-components/src/components/product-similar-apps/ProductSimilarApps';
 import Slider, { sliderSchemaForm, sliderSettingShape, sliderDefaultSettings } from '@appdirect/sfb-theme-components/src/atoms/slider/Slider';
@@ -7,74 +7,44 @@ import withListener from '@appdirect/sfb-theme-components/src/components/withLis
 import { SMALL, MEDIUM, LARGE } from '@appdirect/sfb-theme-components/src/constants/sizes';
 import { createNamespace } from '@appdirect/sfb-theme-components/src/tools/namingTools';
 
-import { productInfoFromResponse } from './ProductAPIQuery';
+import { productInfoFromResponse, getAllProductDetails} from './ProductAPIQuery';
+import {getRecommendations} from './AppRecommenderQuery.js';
 
 export const ProductRecommendedAppsComponent = function(props){
 
     const namespace = createNamespace('ProductSimilarApps');
 
-    var queryProductAPI = async function(application_id, marketplace_url) {
-        const url = `${marketplace_url}/api/marketplace/v1/products/${application_id}`
-        return fetch(url, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-    }
+    const [recommendation_data, setData] = useState({});
 
-    var getAllProductDetails = function(application_id_list, marketplace_url) {
-        const queryPromises = application_id_list.map(app_id => 
-            queryProductAPI(app_id, marketplace_url));
-
-        const statusesPromise = Promise.allSettled(queryPromises);
-        return statusesPromise;
-    }
-
-    const responses = getAllProductDetails([310674, 147651, 147651], "https://marketplace.appsmart.com")
-    var tile_data = [];
-
-    for (var i = 0; i < responses.length; i++){
-        console.log(responses[i])
-        if (responses[i].status === "fulfilled") {
-            tile_data.push(productInfoFromResponse(responses[i].value.json()))
-        }
-    }
-    // var tile_data = responses.map(product => productInfoFromResponse(product))
-    // console.log(tile_data)
-    var tile_settings = {
-        // layout: SETTINGS.layout.defaultValue,
-        tileBackgroundColor: "blue",
-        isDescriptionVisible: true,
-        isRatingsVisible: true,
-        size: SMALL.value,
-        borderRadius: 8
-    }
-
-
-    var i18n = {
-            title: 'Recommended Apps',
-            titleProduct: 'Recommended Products',
-            viewAll: 'https://news.google.com/'
-        }
-
-    var recommendation_data = {
-        recommendations: {
-            items: tile_data,
-            viewAllLink: 'https://www.cbc.ca',
-            i18n:i18n
-        }
-
-    }
+    useEffect(() => {
+        // getRecommendations()
+        // .then(app_list => getAllProductDetails(app_list, "https://marketplace.appsmart.com"))
+        getAllProductDetails([318673, 234576], "https://marketplace.appsmart.com")
+          .then(promises => {
+                var tile_data = [];
+                for (var i = 0; i < promises.length; i++){
+                    console.log(promises[i])
+                    if (promises[i].status === "fulfilled") {
+                        tile_data.push(productInfoFromResponse(promises[i].value))
+                    }
+                };
+                setData({
+                    recommendations: {
+                        items: tile_data,
+                        viewAllLink: 'https://www.cbc.ca',
+                        i18n:{
+                            title: 'Recommended Apps',
+                            titleProduct: 'Recommended Products',
+                            viewAll: 'https://news.google.com/'
+                        }
+                    }
+                })
+            })
+    }, [])
 
     var recommendation_settings = {
         sliderTitle: "Recommended Applications",
         sortBy: "nothing"
-    }
-
-    var recommendation_content = {
-        data: recommendation_data,
-        settings: recommendation_settings
     }
 
     return (
