@@ -17,9 +17,8 @@ export const ProductRecommendedAppsComponent = function(props){
     const [recommendation_data, setData] = useState({});
 
     useEffect(() => {
-        // getRecommendations()
-        // .then(app_list => getAllProductDetails(app_list, "https://marketplace.appsmart.com"))
-        getAllProductDetails([318673, 234576], "https://marketplace.appsmart.com")
+        getRecommendations()
+        .then(app_list => getAllProductDetails(app_list, "https://marketplace.appsmart.com"))
           .then(promises => {
                 var tile_data = [];
                 for (var i = 0; i < promises.length; i++){
