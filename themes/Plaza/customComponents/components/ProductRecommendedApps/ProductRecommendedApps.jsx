@@ -9,18 +9,21 @@ import {getRecommendations} from './AppRecommenderQuery.js';
 
 export const ProductRecommendedAppsComponent = function(props){
 
-    const namespace = createNamespace('ProductSimilarApps');
-
     const [recommendation_data, setData] = useState({});
 
+    const BASE_URL = "https://marketplace.appsmart.com"
+    const APP_401 = [314517]
     useEffect(() => {
         getRecommendations()
-        .then(app_list => getAllProductDetails(app_list, "https://marketplace.appsmart.com"))
+        .then(app_list => getAllProductDetails(app_list, BASE_URL))
           .then(promises => {
                 var tile_data = [];
                 for (var i = 0; i < promises.length; i++){
                     if (promises[i].status === "fulfilled") {
-                        tile_data.push(productInfoFromResponse(promises[i].value))
+                        var response_json = promises[i].value
+                        if (response_json !== null){
+                            tile_data.push(productInfoFromResponse(response_json))
+                        }
                     }
                 };
                 setData({

@@ -39,20 +39,19 @@ export function  productInfoFromResponse(data){
 
 var queryProductAPI = async function(application_id, marketplace_url) {
     const url = `${marketplace_url}/api/marketplace/v1/products/${application_id}`
-    var response = fetch(url, {
+    return fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       }).then(response => {
-        console.log(response.ok)
-        if (response.ok){
-        return response.json()
+        if (response.status == 200){
+            return response.json()
         } else {
-        return null
-            }
+            return null
         }
-    );
+          
+        });
     }
 
 export var getAllProductDetails = async function(application_id_list, marketplace_url) {
