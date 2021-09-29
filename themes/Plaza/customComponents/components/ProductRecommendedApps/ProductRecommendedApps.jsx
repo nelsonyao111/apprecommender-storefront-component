@@ -12,7 +12,7 @@ export const ProductRecommendedAppsComponent = function(props){
     const [recommendation_data, setData] = useState({});
 
     const BASE_URL = "https://marketplace.appsmart.com"
-    const APP_401 = [314517]
+    // const APP_401 = [314517] for testing how to handle 401 apps
     useEffect(() => {
         getRecommendations()
         .then(app_list => getAllProductDetails(app_list, BASE_URL))
