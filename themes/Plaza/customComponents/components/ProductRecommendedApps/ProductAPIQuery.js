@@ -33,7 +33,8 @@ export function  productInfoFromResponse(data){
         numRatings: data.numRatings,
         tags: data.tags,
         badges: [],
-        productRibbon: data.productRibbon
+        productRibbon: data.productRibbon,
+        recommendation_rank: data.recommendation_rank
     }
 }
 
@@ -54,8 +55,13 @@ var queryProductAPI = async function(application_id, marketplace_url) {
         });
     }
 
-export var getAllProductDetails = async function(application_id_list, marketplace_url) {
-    const queryPromises = application_id_list.map(app_id => queryProductAPI(app_id, marketplace_url));
+export var getAllProductDetails = async function(application_list, marketplace_url) {
+    const queryPromises = application_list.map(function(app){
+                var app_info = queryProductAPI(app.application_id, marketplace_url);
+                app_info.recommendation_rank = app.score
+                return app_info
+            }
+        );
 
     const statusesPromise = await Promise.allSettled(queryPromises);
     return statusesPromise

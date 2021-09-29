@@ -26,6 +26,7 @@ export const ProductRecommendedAppsComponent = function(props){
                         }
                     }
                 };
+                tile_data.sort((a, b) => (a.recommendation_rank > b.recommendation_rank) ? 1 : -1)
                 setData({
                     recommendations: {
                         items: tile_data,
@@ -41,7 +42,7 @@ export const ProductRecommendedAppsComponent = function(props){
     }, [])
 
     var recommendation_settings = {
-        sliderTitle: "Recommended Applications",
+        sliderTitle: "Top Applications",
         sortBy: "nothing"
     }
 
