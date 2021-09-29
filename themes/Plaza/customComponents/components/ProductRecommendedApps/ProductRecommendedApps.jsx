@@ -42,7 +42,7 @@ export const ProductRecommendedAppsComponent = function(props){
     }, [])
 
     var recommendation_settings = {
-        sliderTitle: "Top Applications",
+        sliderTitle: "Recommended Applications",
         sortBy: "nothing"
     }
 
